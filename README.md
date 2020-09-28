@@ -75,7 +75,7 @@ Here's a picture of an Atlas Search fuzzy match, which would be exceedingly diff
 
 8. Visit http://127.0.0.1:5000 in the browser and try out the search. Feel free to use your own query but for a consistent comparison, try entering `kentucky` in the name field, `10451` in the zip field, and `5` in the radius field then clicking `Submit`.
 
-This should work fine but what about typo tolerance? Try the same query, except this time change the name input from `kentucky` to `kentucke`.efore clicking submit, click the clear results button in the bottom right of the map. No results. 
+This should work fine but what about typo tolerance? Try the same query, except this time change the name input from `kentucky` to `kentucke`. Before clicking submit, click the clear results button in the bottom right of the map. No results. 
 
 If you were to add one million more restaurants, the query would be too slow to be usable. Your clusters are hurting from this experience and they should really move to the MongoDB product that is designed for the job. To replace the search experience with Atlas Search, let's checkout the `fts_version` branch of this repo:
 
