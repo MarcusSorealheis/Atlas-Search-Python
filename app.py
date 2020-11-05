@@ -37,33 +37,15 @@ def getrestaurants():
 
     METERS_PER_MILE = 1609.34
 
-    # pipeline = [ { "$search": { "index": "restaurant_fts","compound":  { 
-    #     "must": { "text": { "query": restname, "path": "name", "fuzzy": {"maxEdits":2}} },
-    #     "should": { "near": { "origin": {"type": "Point","coordinates": [lat, lon] }, "pivot": int(rad) * METERS_PER_MILE, "path": "location"     } } }} } ]    
-    pipeline = [ { "$search": { 
-                        "index": "restaurant_fts",
-                        "compound":  { 
-                            "must": { 
-                                "text": { 
-                                    "query": restname, 
-                                    "path": "name", 
-                                    "fuzzy": { 
-                                    "maxEdits": 2 
-                                    } } },
-                                "filter": [{
-                                "geoWithin": {
-                                    "circle": {
-                                    "center": {
-                                        "type": "Point",
-                                        "coordinates": [-73.90, 40.76]
-                                    },
-                                    "radius": int(rad) * METERS_PER_MILE
-                                    },
-                                "path": "location"
-                                }
-                            }]
-                            }
-                        }  }]
+    pipeline =  [{ $match:
+                    {
+                        $text: {
+                            $search: restname,
+                            $caseSensitive: false,
+                            $diacriticSensitive: false
+                        }
+                    }
+                }]
     documents = db.restaurant_regex.aggregate(pipeline)
 
     for document in documents:
