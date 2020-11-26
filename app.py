@@ -76,8 +76,3 @@ def getrestaurants():
 
     return jsonify(nearby_restaurants)
 
-
-
-# { 'location': { '$nearSphere': { '$geometry': { 'type': "Point",'coordinates': [40.8283807,-73.9270844] },'$maxDistance': 5 * 1609.34 } } }
-
-# {location: {$nearSphere: { $geometry: { type: "Point",coordinates: [40.8283807,-73.9270844] },$maxDistance:7609.34 } } }
