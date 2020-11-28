@@ -9,11 +9,19 @@ import geopy.geocoders
 ctx = ssl.create_default_context(cafile=certifi.where())
 geopy.geocoders.options.default_ssl_context = ctx
 
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+### Stores secret files for deployment on Heroku as seen here: https://github.com/MirelaI/flask_config_example. Please note that there are better ways to do this, but I wanted to make the tutorial accessible for largest audience.
+app.config.from_json('config.json')
+
 class mongo_connection:
   conn = None
 
   def connect(self):
-    client = pymongo.MongoClient("mongodb+srv://marcustest:<password>@cluster0.xh91t.mongodb.net/?retryWrites=true&w=majority")
+    client = pymongo.MongoClient(app.config["ATLAS_URI"])
     db = client.sample_restaurants
     self.conn = db["restaurant_regex"]
 
@@ -24,7 +32,6 @@ class mongo_connection:
 db = mongo_connection()
 db.connect()
 
-app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -35,8 +42,11 @@ def getrestaurants():
     restname = request.args.get('restaurant')
     borough = request.args.get('borough')
     state = request.args.get('state')
-    zipcode = request.args.get('zipcode')
-    rad = request.args.get('radius')
+    # zipcode = request.args.get('zipcode')
+    # static to demonstrate
+    zipcode = "10451"
+    # rad = request.args.get('radius')
+    rad = "10"
     coord = request.args.get('coord')
     print(f'rad: {rad}')
     print(f'type(rad): {type(rad)}')
